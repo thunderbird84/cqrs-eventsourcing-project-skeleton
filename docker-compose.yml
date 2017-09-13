@@ -1,0 +1,20 @@
+version: "2"
+services:
+  mysql:
+    image: mysql
+    hostname: mysql.robin.examples
+    environment:
+       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    #volumes:
+    #   - /var/opt/mysql:/var/lib/mysql
+
+
+  qpid:
+    image: indexing/qpid
+    hostname: qpid.robin.examples
+    ports:
+       - 5672:5672
+
+  redis:
+    image: redis:3.2-alpine
+    hostname: redis.robin.examples

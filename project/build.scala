@@ -2,7 +2,6 @@ import java.io.File
 
 import sbt.Keys._
 import sbt._
-
 import scala.util.Try
 import scala.collection.JavaConverters._
 
@@ -28,6 +27,12 @@ object build extends com.typesafe.sbt.pom.PomBuild {
     exportJars in Test := false,
     libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test",
     testOptions += Tests.Argument(TestFrameworks.JUnit, "-s")
+  )
+
+  lazy val playSettings = Seq(
+    scalaVersion in ThisBuild := "2.12.2"
+    //enablePlugins(PlayScala)
+    //resolvers += Resolver.sonatypeRepo("snapshots")'
   )
 
 
@@ -80,13 +85,15 @@ object build extends com.typesafe.sbt.pom.PomBuild {
     }
   )
 
+
   override def projectDefinitions(baseDirectory: File): Seq[Project] = {
     super.projectDefinitions(baseDirectory) map { project: Project =>
       var p = project
         //.settings(spray.revolver.RevolverPlugin.Revolver.settings)
         .settings(defaultSettings)
 
-      if (new File(project.base, "src/main/docker").exists())
+
+        if (new File(project.base, "src/main/docker").exists())
         p = p.settings(dockerSettings)
 
       p

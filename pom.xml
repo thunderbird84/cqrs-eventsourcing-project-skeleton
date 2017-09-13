@@ -17,7 +17,7 @@
     </properties>
 
     <modules>
-        <!--<module>webapp</module> -->
+        <module>webapp</module>
         <module>services/usr-compounder</module>
         <module>services/usr-service-query</module>
         <module>services/usr-service-cmd</module>
