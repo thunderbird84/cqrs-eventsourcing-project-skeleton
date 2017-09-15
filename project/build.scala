@@ -4,6 +4,9 @@ import sbt.Keys._
 import sbt._
 import scala.util.Try
 import scala.collection.JavaConverters._
+import play.sbt._
+import Play.autoImport._
+import PlayKeys._
 
 object build extends com.typesafe.sbt.pom.PomBuild {
 
@@ -30,9 +33,10 @@ object build extends com.typesafe.sbt.pom.PomBuild {
   )
 
   lazy val playSettings = Seq(
-    scalaVersion in ThisBuild := "2.12.2"
-    //enablePlugins(PlayScala)
-    //resolvers += Resolver.sonatypeRepo("snapshots")'
+    scalaVersion in ThisBuild := "2.12.2",
+    libraryDependencies ++= Seq("org.scala-sbt" % "sbt" % "0.13.7",
+      "com.typesafe.play" %% "play" % "2.6.3"),
+    resolvers += Resolver.sonatypeRepo("snapshots")
   )
 
 
@@ -89,11 +93,15 @@ object build extends com.typesafe.sbt.pom.PomBuild {
   override def projectDefinitions(baseDirectory: File): Seq[Project] = {
     super.projectDefinitions(baseDirectory) map { project: Project =>
       var p = project
-        //.settings(spray.revolver.RevolverPlugin.Revolver.settings)
-        .settings(defaultSettings)
+
+      if (new File(project.base, "conf/application.conf").exists())
+        p= p.settings(playSettings)
+            .enablePlugins(PlayScala)
+      else
+        p = p.settings(defaultSettings)
 
 
-        if (new File(project.base, "src/main/docker").exists())
+      if (new File(project.base, "src/main/docker").exists())
         p = p.settings(dockerSettings)
 
       p
