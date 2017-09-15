@@ -12,24 +12,56 @@
 
     <artifactId>webapp</artifactId>
     <properties>
-
+        <robin.version>1.0</robin.version>
+        <play2.version>2.6.3</play2.version>
+        <scala.version>2.12.2</scala.version>
     </properties>
-    <dependencies>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.typesafe.play</groupId>
+            <artifactId>play_2.12</artifactId>
+            <version>${play2.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.typesafe.play</groupId>
+            <artifactId>play-guice_2.12</artifactId>
+            <version>${play2.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.typesafe.play</groupId>
+            <artifactId>play-logback_2.12</artifactId>
+            <version>${play2.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.typesafe.play</groupId>
+            <artifactId>play-akka-http-server_2.12</artifactId>
+            <version>${play2.version}</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <build>
-        <sourceDirectory>${basedir}/app</sourceDirectory>
-        <testSourceDirectory>${basedir}/test</testSourceDirectory>
+        <sourceDirectory>${project.basedir}/app</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/test</testSourceDirectory>
         <resources>
             <resource>
-                <directory>${basedir}/conf</directory>
+                <directory>${project.basedir}/conf</directory>
             </resource>
             <resource>
-                <directory>${basedir}</directory>
-                <includes>
-                    <include>public/**</include>
-                </includes>
+                <directory>${project.basedir}/public</directory>
+                <targetPath>public</targetPath>
             </resource>
         </resources>
 
@@ -40,19 +72,20 @@
             </plugin>
 
             <plugin>
-                <groupId>com.google.code.maven-play-plugin</groupId>
-                <artifactId>play-maven-plugin</artifactId>
-                <version>1.0.0-beta8</version>
+                <groupId>com.google.code.play2-maven-plugin</groupId>
+                <artifactId>play2-maven-plugin</artifactId>
+                <version>1.0.0-rc1</version>
                 <extensions>true</extensions>
-                <executions>
-                    <execution>
-                        <id>play-dependencies</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>dependencies</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <configuration>
+                    <!-- if using controllers without dependency injection; default value is "injected" -->
+                    <routesGenerator>static</routesGenerator>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.google.code.sbt-compiler-maven-plugin</groupId>
+                <artifactId>sbt-compiler-maven-plugin</artifactId>
+                <version>1.0.0</version>
             </plugin>
 
         </plugins>
