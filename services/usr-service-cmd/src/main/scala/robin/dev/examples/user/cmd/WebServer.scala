@@ -4,6 +4,7 @@ import akka.Done
 import akka.actor.{Actor, ActorSystem, Props}
 import akka.http.scaladsl.server.{HttpApp, Route}
 import akka.http.scaladsl.settings.ServerSettings
+import robin.dev.examples.http.UserRoute
 
 import scala.concurrent.{ExecutionContext, Future, Promise}
 
@@ -29,7 +30,8 @@ object WebServer {
         get {
           complete("healthy!")
         }
-      }
+      } ~
+      new UserRoute().route()
 
     override def waitForShutdownSignal(actorSystem: ActorSystem)(implicit executionContext: ExecutionContext): Future[Done] = {
       val promise = Promise[Done]()

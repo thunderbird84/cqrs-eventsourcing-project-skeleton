@@ -40,11 +40,19 @@ Step 4: Verify services
 
 * [http://usr-service-query.robin.examples](http://usr-service-query.robin.examples)
 * [http://usr-service-cmd.robin.examples](http://usr-service-cmd.robin.examples)
-* [http://usr-service-query.robin.examples](http://usr-service-query.robin.examples)
+* [http://usr-compounder.robin.examples](http://usr-compounder.robin.examples)
 
 Step 5: testing services
 
+create user
+'''
+curl -H "Content-Type: application/json" -X POST -d '{"id":"","firstName": "Robin","lastName": "Snow","age":18,"email": "robin@dev.examples", "secret": "123456"}' "http://localhost:8402/users" 
+'''
 
+update user
+'''
+curl -H "Content-Type: application/json" -X PUT -d '{"id":"<id>","firstName": "Robin","lastName": "Snow","age":19,"email": "robin@dev.examples", "secret": "123456"}' "http://localhost:8402/users/<id>" 
+'''
  
  
 

@@ -11,8 +11,10 @@ object Configs {
 
   def amqUri: URI = URI.create(config.getString("qpid.uri"))
 
-
   def redisHost: String = config.getString("redis.host")
   def redisPort: Int = config.getInt("redis.port")
 
+  def jdbcUrl: String = config.getString("jdbc.url")
+  def jdbcUsername: String = config.getString("jdbc.username")
+  def jdbcPassword: String = config.getString("jdbc.password")
 }
