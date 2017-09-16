@@ -15,3 +15,34 @@ services:
   redis:
     image: redis:3.2-alpine
     hostname: redis.robin.examples
+
+  usr-compounder:
+    hostname: usr-compounder.robin.examples
+    build: services/usr-compounder/target/docker
+    links:
+      - mysql:mysql.robin.examples
+      - qpid:qpid.robin.examples
+    environment:
+      ENV: dev
+      JVM_XMX: 32m
+
+  usr-service-query:
+      hostname: usr-service-query.robin.examples
+      build: services/usr-service-query/target/docker
+      links:
+        - mysql:mysql.robin.examples
+        - qpid:qpid.robin.examples
+      environment:
+        ENV: dev
+        JVM_XMX: 32m
+
+  usr-service-cmd:
+      hostname: usr-service-cmd.robin.examples
+      build: services/usr-service-cmd/target/docker
+      links:
+        - mysql:mysql.robin.examples
+        - redis:redis.robin.example
+        - qpid:qpid.robin.examples
+      environment:
+        ENV: dev
+        JVM_XMX: 32m

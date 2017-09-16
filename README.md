@@ -21,7 +21,28 @@ Step 3: Download dependencies
 ```
 $> mvn clean install
 $> sbt
+#from sbt console type following command to start micro-services
+$> dockerPack
+$> dockerComp
+
+# In other linux terminal exec below command too add host file
+$> ./route.sh
+#out put
+# 172.25.0.7 usr-compounder.robin.examples
+# 172.25.0.6 usr-service-cmd.robin.examples
+# 172.25.0.5 usr-service-query.robin.examples
+# 172.25.0.4 mysql.robin.examples
+# 172.25.0.3 redis.robin.examples
+# 172.25.0.2 qpid.robin.examples
+ 
 ```
+Step 4: Verify services
+
+* [http://usr-service-query.robin.examples](http://usr-service-query.robin.examples)
+* [http://usr-service-cmd.robin.examples](http://usr-service-cmd.robin.examples)
+* [http://usr-service-query.robin.examples](http://usr-service-query.robin.examples)
+
+Step 5: testing services
 
 
  
