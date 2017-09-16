@@ -65,11 +65,12 @@ object UserRoute {
   implicit class UserExt(u: User) {
     def validate(): Option[String] = {
       if (u.id.length > 0) {
-        "user id must be empty string \"\""
+        Some("user id must be empty string \"\"")
       } else if (EmaiRegx.findFirstIn(u.email).isEmpty) {
-        "email is invalid"
+        Some("email is invalid")
+      }else {
+        None
       }
-      None
     }
   }
 
