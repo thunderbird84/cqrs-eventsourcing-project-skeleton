@@ -23,7 +23,10 @@ $> mvn clean install
 $> sbt
 #from sbt console type following command to start micro-services
 $> dockerPack
-$> dockerComp
+$> usr-service-cmd/dockerComp
+$> usr-service-query/dockerComp
+$> usr-compounder/dockerComp
+## to run service localy: usr-service-cmd/reStart
 
 # In other linux terminal exec below command too add host file
 $> ./route.sh

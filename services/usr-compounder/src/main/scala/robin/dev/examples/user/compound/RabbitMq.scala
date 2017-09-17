@@ -7,7 +7,9 @@ import org.json4s._
 import com.newmotion.akka.rabbitmq.ConnectionActor.{Connected, Disconnected}
 import com.newmotion.akka.rabbitmq.{ChannelActor, ConnectionActor, _}
 import org.json4s.jackson.Serialization.write
+import org.json4s.jackson.Serialization.read
 import org.slf4j.LoggerFactory
+import robin.dev.examples.common.UserChangesEvent
 
 import scala.concurrent.duration._
 import scala.util.control.NonFatal
@@ -27,7 +29,7 @@ object RabbitMq {
     //private val system = context.system
 
     override def receive = {
-
+      case m: Out.OutEvent                => context.parent forward m
       case Connected                      => log.info(s"Qpid Connected")
       case Disconnected                   => log.error(s"Qpid Disconnected")
       case c: ChannelCreated              => log.info(s"Qpid ChannelCreated")
@@ -66,9 +68,9 @@ object RabbitMq {
 
     def handleMessage(routingKey: String, body: Array[Byte]): Unit = try {
       val bodyString = new String(body)
-      log.info(s"Got message $bodyString")
+      val msg  = read[UserChangesEvent](bodyString)
       routingKey match {
-        case  UserChangeRoutingKey => //self ! DeletedTokenEvent(message.oAuthSession)
+        case  UserChangeRoutingKey => self ! Out.OutEvent(msg)
       }
     } catch {
       case NonFatal(e) =>
@@ -86,6 +88,9 @@ object RabbitMq {
     case class SendMessage(routingKey: String, msg: AnyRef )
   }
 
+  case object Out{
+    case class OutEvent(e: UserChangesEvent)
+  }
   val NonExclusive: Boolean = false
   val NoAutoDelete: Boolean = false
   val NoMultipleMessageAck: Boolean = false

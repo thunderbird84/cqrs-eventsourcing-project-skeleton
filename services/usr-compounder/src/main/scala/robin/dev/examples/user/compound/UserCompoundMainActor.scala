@@ -10,8 +10,12 @@ class UserCompoundMainActor(port: Int) extends Actor{
   private implicit val log = LoggerFactory.getLogger(getClass)
 
   def receive: Receive = {
+    case m: RabbitMq.Out.OutEvent  => storageActor forward m.e
     case o => log.error("Unknown message")
   }
+
+  val redisCli = new RedisCliStubs(Configs.redisUrl,"usr-compound")
+  val storageActor = context.actorOf(UserStorageActor.props(redisCli))
 
   val rabbitMq = context.actorOf(RabbitMq.props(Configs.amqpUri))
   val webServer = context.actorOf(WebServer.props(port))
