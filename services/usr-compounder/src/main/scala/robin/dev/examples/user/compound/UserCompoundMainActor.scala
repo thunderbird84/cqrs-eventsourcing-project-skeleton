@@ -2,6 +2,7 @@ package robin.dev.examples.user.compound
 
 import akka.actor.{Actor, Props}
 import org.slf4j.LoggerFactory
+import robin.dev.examples.common.Configs
 
 
 class UserCompoundMainActor(port: Int) extends Actor{
@@ -12,6 +13,7 @@ class UserCompoundMainActor(port: Int) extends Actor{
     case o => log.error("Unknown message")
   }
 
+  val rabbitMq = context.actorOf(RabbitMq.props(Configs.amqpUri))
   val webServer = context.actorOf(WebServer.props(port))
 
 }

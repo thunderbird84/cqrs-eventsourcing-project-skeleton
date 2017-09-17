@@ -9,7 +9,7 @@ object Configs {
 
   val config = ConfigFactory.load("conf/" + env + ".conf")
 
-  def amqUri: URI = URI.create(config.getString("qpid.uri"))
+  def amqpUri: URI = URI.create(config.getString("amqp.uri"))
 
   def redisHost: String = config.getString("redis.host")
   def redisPort: Int = config.getInt("redis.port")

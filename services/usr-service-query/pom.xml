@@ -67,7 +67,11 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.newmotion</groupId>
+            <artifactId>akka-rabbitmq_2.12</artifactId>
+            <version>4.0.0</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

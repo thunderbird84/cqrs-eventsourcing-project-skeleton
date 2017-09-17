@@ -1,7 +1,6 @@
 package robin.dev.examples
 
 import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
 import org.slf4j.LoggerFactory
 import robin.dev.examples.user.cmd.UserCmdMainActor

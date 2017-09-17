@@ -48,10 +48,11 @@
             <artifactId>json4s-jackson_2.12</artifactId>
         </dependency>
 
+
         <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <type>jar</type>
+            <groupId>com.newmotion</groupId>
+            <artifactId>akka-rabbitmq_2.12</artifactId>
+            <version>4.0.0</version>
         </dependency>
 
         <dependency>

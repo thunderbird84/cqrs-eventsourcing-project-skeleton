@@ -19,7 +19,11 @@ case class UserInfo(id: String,
                         age: Int,
                         activities: Seq[UserActivity])
 
+case class UserChangesEvent(`type`: String, userId: String)
+
+
 case object Activity{
   val Login = "LOGIN"
-  val ChangeEmail  = "CHANGE_EMAIL"
+  val ChangeEmail  = "EMAIL_CHANGED"
+  val PasswordChanged  = "PASSWORD_CHANGED"
 }

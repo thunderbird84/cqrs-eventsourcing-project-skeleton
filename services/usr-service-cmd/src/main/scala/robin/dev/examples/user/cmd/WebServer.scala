@@ -31,7 +31,7 @@ object WebServer {
           complete("healthy!")
         }
       } ~
-      new UserRoute().route()
+      new UserRoute(context.parent).route()
 
     override def waitForShutdownSignal(actorSystem: ActorSystem)(implicit executionContext: ExecutionContext): Future[Done] = {
       val promise = Promise[Done]()
