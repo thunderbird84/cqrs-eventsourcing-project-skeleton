@@ -34,7 +34,7 @@ object build extends com.typesafe.sbt.pom.PomBuild {
 
   lazy val playSettings = Seq(
     scalaVersion in ThisBuild := "2.12.2",
-    libraryDependencies ++= Seq("org.scala-sbt" % "sbt" % "0.13.7",
+    libraryDependencies ++= Seq(
       "com.typesafe.play" %% "play" % "2.6.3"),
     resolvers += Resolver.sonatypeRepo("snapshots")
   )
@@ -99,7 +99,20 @@ object build extends com.typesafe.sbt.pom.PomBuild {
       IO.unzip(sourceFile, baseDirectory.value / "target" / "universal")
       IO.copyDirectory(baseDirectory.value / "target" / "universal" / s"${name.value}-${version.value}" , playApps)
       IO.copyDirectory(baseDirectory.value / "src" / "main" / "docker", dockerTarget)
+    },
+
+    dockerComp := {
+      println(dockerPack.value)
+      val stageFolder: File = target.value
+      if (!checkChanged(timestampFile = stageFolder / ".dockerlast", glob = stageFolder.***)) {
+        streams.value.log.info("No changes in " + stageFolder)
+      } else {
+        s"docker-compose rm -f ${name.value}".!
+        s"docker-compose build ${name.value}".!
+        s"docker-compose up -d --no-deps ${name.value}".!
+      }
     }
+
   )
 
   override def projectDefinitions(baseDirectory: File): Seq[Project] = {

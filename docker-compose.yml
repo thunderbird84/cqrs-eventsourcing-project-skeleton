@@ -50,3 +50,10 @@ services:
       environment:
         ENV: dev
         JVM_XMX: 32m
+
+  webapp:
+        hostname: webapp.robin.examples
+        build: webapp/target/docker
+        environment:
+          ENV: dev
+          JVM_XMX: 32m

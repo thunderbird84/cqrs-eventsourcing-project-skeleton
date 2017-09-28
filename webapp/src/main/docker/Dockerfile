@@ -1,10 +1,9 @@
-FROM jeanblanchard/java:jdk-8u131
+FROM indexing/jvm
 
 
 EXPOSE 80
 
 ENTRYPOINT ["bin/entrypoint.sh"]
-RUN apk add --update bash && rm -rf /var/cache/apk/*
 
 RUN mkdir  /opt/app
 WORKDIR /opt/app/
