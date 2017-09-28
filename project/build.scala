@@ -89,22 +89,37 @@ object build extends com.typesafe.sbt.pom.PomBuild {
     }
   )
 
+  lazy val docker4PlaySettings = Seq(
+    dockerPack := {
+      val dockerTarget: File = baseDirectory.value / "target" / "docker"
+      Command.process("dist", state.value)
+      val sourceFile = baseDirectory.value / "target" / "universal" / s"${name.value}-${version.value}.zip"
+      val playApps =  baseDirectory.value / "target" / "docker" / "app"
+
+      IO.unzip(sourceFile, baseDirectory.value / "target" / "universal")
+      IO.copyDirectory(baseDirectory.value / "target" / "universal" / s"${name.value}-${version.value}" , playApps)
+      IO.copyDirectory(baseDirectory.value / "src" / "main" / "docker", dockerTarget)
+    }
+  )
 
   override def projectDefinitions(baseDirectory: File): Seq[Project] = {
     super.projectDefinitions(baseDirectory) map { project: Project =>
       var p = project
 
-      if (new File(project.base, "conf/application.conf").exists())
-        p= p.settings(playSettings)
-            .enablePlugins(PlayScala)
-      else
+      if (new File(project.base, "conf/application.conf").exists()) {
+        p = p.settings(playSettings)
+          .enablePlugins(PlayScala)
+
+        if (new File(project.base, "src/main/docker").exists())
+          p = p.settings(docker4PlaySettings)
+
+      } else {
         p = p.settings(defaultSettings)
-
-
-      if (new File(project.base, "src/main/docker").exists())
-        p = p.settings(dockerSettings)
-
+        if (new File(project.base, "src/main/docker").exists())
+          p = p.settings(dockerSettings)
+      }
       p
+
     }
   }
 }
